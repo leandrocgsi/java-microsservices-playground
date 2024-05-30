@@ -8,9 +8,10 @@ spring:
     username: root
     password: admin123
   jpa:
-    database-platform: org.hibernate.dialect.MySQLDialect
+    open-in-view: false
     hibernate:
       ddl-auto: update
+    show-sql: false
   security:
     oauth2:
       resourceserver:
