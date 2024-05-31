@@ -13,15 +13,14 @@ public class SecurityConfig {
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
+        return http
             .authorizeHttpRequests(authorizeRequests ->
                 authorizeRequests
                     .requestMatchers("/employees/**").authenticated()
                     .anyRequest().permitAll()
             )
-            .oauth2ResourceServer(oauth2 -> oauth2.jwt(
-                    Customizer.withDefaults()));
-        
-        return http.build();
+            .oauth2ResourceServer(
+                //oauth2 -> oauth2.jwt(Customizer.withDefaults())).build();
+                oauth2 -> {}).build();
     }
 }
