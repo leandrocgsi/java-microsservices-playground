@@ -13,5 +13,5 @@ management:
     health:
       show-details: ALWAYS
 greeting-service:
-  greeting: "Olá"
+  greeting: "Hola"
   default-value: "Mundo"
