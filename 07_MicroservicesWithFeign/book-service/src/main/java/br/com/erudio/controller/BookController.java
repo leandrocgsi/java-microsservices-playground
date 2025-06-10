@@ -2,6 +2,7 @@ package br.com.erudio.controller;
 
 import br.com.erudio.dto.Exchange;
 import br.com.erudio.environment.InstanceInformationService;
+import br.com.erudio.proxy.ExchangeProxy;
 import br.com.erudio.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +25,28 @@ public class BookController {
 	@Autowired
 	private BookRepository repository;
 
+	@Autowired
+	private ExchangeProxy proxy;
+
+	@GetMapping(value = "/{id}/{currency}",
+               produces = { "application/json" })
+	public Book findBook(
+			@PathVariable("id") Long id,
+			@PathVariable("currency") String currency) {
+
+		String port = informationService.retrieveServerPort();
+
+		Book book = repository.findById(id)
+				.orElseThrow();
+
+		var exchange = proxy.getExchange(book.getPrice(), "USD", currency);
+		book.setEnvironment(port);
+		book.setPrice(exchange.getConvertedValue());
+		book.setCurrency(currency);
+		return book;
+	}
+
+	/*
 	@GetMapping(value = "/{id}/{currency}",
                produces = { "application/json" })
 	public Book findBook(
@@ -52,5 +75,5 @@ public class BookController {
 		book.setPrice(exchange.getConvertedValue());
 		book.setCurrency(currency);
 		return book;
-	}
+	}*/
 }
