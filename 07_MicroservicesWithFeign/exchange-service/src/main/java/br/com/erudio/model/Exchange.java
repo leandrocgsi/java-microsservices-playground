@@ -1,6 +1,5 @@
 package br.com.erudio.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -8,8 +7,7 @@ import java.math.BigDecimal;
 import java.util.Objects;
 
 @Entity(name = "exchange")
-// @JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
-public class Exchange  implements Serializable {
+public class Exchange implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -23,7 +21,7 @@ public class Exchange  implements Serializable {
     @Column(name = "to_currency", nullable = false, length = 3)
     private String to;
 
-    @Column(nullable = false)
+    @Column(name = "conversion_factor", nullable = false)
     private BigDecimal conversionFactor;
 
     @Transient
@@ -32,8 +30,7 @@ public class Exchange  implements Serializable {
     @Transient
     private String environment;
 
-
-    public Exchange() {}
+    public Exchange(){}
 
     public Exchange(Long id, String from, String to, BigDecimal conversionFactor,
                     BigDecimal convertedValue, String environment) {
