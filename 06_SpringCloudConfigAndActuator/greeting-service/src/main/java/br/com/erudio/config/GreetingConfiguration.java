@@ -5,7 +5,7 @@ import org.springframework.cloud.context.config.annotation.RefreshScope;
 
 @ConfigurationProperties("greeting-service")
 @RefreshScope
-public class GreetingConfiguration {
+public class GreetingConfiguration{
 
     private String greeting;
     private String defaultValue;

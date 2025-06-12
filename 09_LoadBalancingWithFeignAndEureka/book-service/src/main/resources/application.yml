@@ -1,5 +1,9 @@
 server:
   port: 8100
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
 spring:
   application:
     name: book-service
@@ -15,7 +19,3 @@ spring:
       hibernate:
     show-sql: false
     open-in-view: false
-eureka:
-  client:
-    service-url:
-      defaultZone: http://localhost:8761/eureka
