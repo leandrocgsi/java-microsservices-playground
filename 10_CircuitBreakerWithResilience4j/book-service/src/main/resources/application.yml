@@ -5,19 +5,21 @@ eureka:
     service-url:
       defaultZone: http://localhost:8761/eureka
 resilience4j:
-  bulkhead:
-    instances:
-      default:
-        max-concurrent-calls: 10
   ratelimiter:
     instances:
       default:
         limit-for-period: 2
         limit-refresh-period: 10s
+  bulkhead:
+    instances:
+      default:
+        max-concurrent-calls: 10
+      foo-bar:
+        max-concurrent-calls: 20
   retry:
     instances:
       foo-bar:
-        max-attempts: 5
+        max-attempts: 7
         wait-duration: 1s
         enable-exponential-backoff: true
 spring:
@@ -35,9 +37,3 @@ spring:
       hibernate:
     show-sql: false
     open-in-view: false
-springdoc:
-  api-docs:
-    path: /book-service/v3/api-docs
-  swagger-ui:
-    url: /book-service/v3/api-docs
-  override-server-url: true
