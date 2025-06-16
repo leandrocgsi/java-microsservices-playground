@@ -38,7 +38,6 @@ public class ExchangeController {
             @PathVariable("to") String to){
 
         logger.info("getExchange is called with -> {}, {} and {}", amount, from, to);
-
         Exchange exchange = repository.findByFromAndTo(from, to);
 
         if (exchange == null) throw new RuntimeException("Currency Unsupported!");
