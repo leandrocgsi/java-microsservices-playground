@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: book-service
+
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+
+opentelemetry:
+  exporter:
+    otlp:
+      endpoint: http://localhost:4318
