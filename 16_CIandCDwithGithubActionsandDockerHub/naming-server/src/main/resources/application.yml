@@ -7,6 +7,10 @@ spring:
     tracing:
       sampling:
         probability: 1.0
+    zipkin:
+      sender:
+        type: rabbit
+      base-url: http://zipkin-server:9411/
 eureka:
   client:
     register-with-eureka: false

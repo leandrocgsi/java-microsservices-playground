@@ -1,5 +1,9 @@
 server:
   port: 8765
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE:http://localhost:8761/eureka}
 spring:
   application:
     name: api-gateway
@@ -20,6 +24,10 @@ spring:
     tracing:
       sampling:
         probability: 1.0
+    zipkin:
+      sender:
+        type: rabbit
+      base-url: http://zipkin-server:9411/
 springdoc:
   swagger-ui:
     urls:

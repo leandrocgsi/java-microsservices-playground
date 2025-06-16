@@ -4,9 +4,6 @@ eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka
-#logging:
-#  pattern:
-#    level: "%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]"
 resilience4j:
   ratelimiter:
     instances:
@@ -44,6 +41,10 @@ spring:
     tracing:
       sampling:
         probability: 1.0
+    zipkin:
+      sender:
+        type: rabbit
+      base-url: http://zipkin-server:9411/
 springdoc:
   api-docs:
     path: /book-service/v3/api-docs

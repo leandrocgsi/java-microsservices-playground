@@ -19,13 +19,19 @@ spring:
       hibernate:
     show-sql: false
     open-in-view: false
-management:
-  tracing:
-    sampling:
-      probability: 1.0
+  management:
+    tracing:
+      sampling:
+        probability: 1.0
+    zipkin:
+      sender:
+        type: rabbit
+      base-url: http://zipkin-server:9411/
 springdoc:
   api-docs:
     path: /exchange-service/v3/api-docs
   swagger-ui:
     url: /exchange-service/v3/api-docs
   override-server-url: true
+#zipkin:
+#  base-url: http://localhost:9411/
