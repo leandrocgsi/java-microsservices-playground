@@ -4,18 +4,6 @@ services:
     ports:
       - 9411:9411
     restart: always
-    depends_on:
-      - rabbit-mq
-    environment:
-      RABBIT_URI: amqp://guest:guest@rabbit-mq:5672
-    networks:
-      - erudio-network
-
-  rabbit-mq:
-    image: rabbitmq:4.1.1-management
-    ports:
-      - 5672:5672
-      - 15672:15672
     networks:
       - erudio-network
 
@@ -49,29 +37,27 @@ services:
 
   naming-server:
     image: leandrocgsi/naming-server:0.0.1-SNAPSHOT
+    restart: always
     ports:
       - 8761:8761
+    depends_on:
+      - zipkin-server
+    environment:
+      SPRING_APPLICATION_JSON: '{"spring.zipkin.base-url":"http://zipkin-server:9411"}'
     networks:
       - erudio-network
-    environment:
-      SPRING_ZIPKIN_BASEURL: http://zipkin-server:9411/
-      RABBIT_URI: amqp://guest:guest@rabbit-mq:5672
-      SPRING_RABBITMQ_HOST: rabbit-mq
-      SPRING_ZIPKIN_SENDER_TYPE: rabbit
 
   api-gateway:
     image: leandrocgsi/api-gateway:0.0.1-SNAPSHOT
+    restart: always
     ports:
       - 8765:8765
     depends_on:
+      - zipkin-server
       - naming-server
-      - rabbit-mq
     environment:
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://naming-server:8761/eureka
-      SPRING_ZIPKIN_BASEURL: http://zipkin-server:9411/
-      RABBIT_URI: amqp://guest:guest@rabbit-mq:5672
-      SPRING_RABBITMQ_HOST: rabbit-mq
-      SPRING_ZIPKIN_SENDER_TYPE: rabbit
+      SPRING_APPLICATION_JSON: '{"spring.zipkin.base-url":"http://zipkin-server:9411"}'
     networks:
       - erudio-network
 
@@ -84,19 +70,16 @@ services:
     environment:
       TZ: America/Sao_Paulo
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://naming-server:8761/eureka
-      SPRING_ZIPKIN_BASEURL: http://zipkin-server:9411/
-      RABBIT_URI: amqp://guest:guest@rabbit-mq:5672
-      SPRING_RABBITMQ_HOST: rabbit-mq
-      SPRING_ZIPKIN_SENDER_TYPE: rabbit
+      SPRING_APPLICATION_JSON: '{"spring.zipkin.base-url":"http://zipkin-server:9411"}'
       SPRING_DATASOURCE_URL: jdbc:mysql://exchange-db:3306/exchange_service?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&enabledTLSProtocols=TLSv1.2
       SPRING_DATASOURCE_USERNAME: docker
       SPRING_DATASOURCE_PASSWORD: admin123
     ports:
       - 8000:8000
     depends_on:
+      - zipkin-server
       - naming-server
       - exchange-db
-      - rabbit-mq
     networks:
       - erudio-network
 
@@ -109,21 +92,19 @@ services:
     environment:
       TZ: America/Sao_Paulo
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://naming-server:8761/eureka
-      SPRING_ZIPKIN_BASEURL: http://zipkin-server:9411/
-      RABBIT_URI: amqp://guest:guest@rabbit-mq:5672
-      SPRING_RABBITMQ_HOST: rabbit-mq
-      SPRING_ZIPKIN_SENDER_TYPE: rabbit
+      SPRING_APPLICATION_JSON: '{"spring.zipkin.base-url":"http://zipkin-server:9411"}'
       SPRING_DATASOURCE_URL: jdbc:mysql://book-db:3306/book_service?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&enabledTLSProtocols=TLSv1.2
       SPRING_DATASOURCE_USERNAME: docker
       SPRING_DATASOURCE_PASSWORD: admin123
     ports:
       - 8100:8100
     depends_on:
+      - zipkin-server
       - naming-server
       - book-db
-      - rabbit-mq
     networks:
       - erudio-network
 networks:
   erudio-network:
+    name: erudio-network
     driver: bridge
