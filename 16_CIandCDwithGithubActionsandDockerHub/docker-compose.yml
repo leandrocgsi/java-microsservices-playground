@@ -7,6 +7,14 @@ services:
     networks:
       - erudio-network
 
+  rabbit-mq:
+    image: rabbitmq:4.1.1-management
+    ports:
+      - 5672:5672
+      - 15672:15672
+    networks:
+      - erudio-network
+
   exchange-db:
     image: mysql:9.1.0
     restart: always
