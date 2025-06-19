@@ -15,9 +15,9 @@ public class ZipkinCustomSenderConfig {
     @Bean
     public Sender zipkinSender() {
         String endpoint = zipkinBaseUrl + "/api/v2/spans";
-
         return URLConnectionSender.newBuilder()
-                .endpoint(endpoint)
-                .build();
+            .endpoint(endpoint)
+            .build();
     }
+
 }
