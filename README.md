@@ -1,1 +1,1 @@
-# java-microsservices-playground
+# microservices-with-spring-cloud-and-java-erudio
