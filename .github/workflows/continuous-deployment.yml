@@ -22,7 +22,7 @@ jobs:
       with:
         java-version: '21'
         distribution: 'adopt'
-        cache: maven
+        # cache: maven
 
     - name: Build Eureka Naming Server Docker Image
       working-directory: ./16_CIandCDwithGithubActionsandDockerHub/naming-server
