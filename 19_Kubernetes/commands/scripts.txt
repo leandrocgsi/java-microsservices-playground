@@ -1,11 +1,9 @@
-kubectl create deployment exchange-service \
-  --image=leandrocgsi/exchange-service:kube-v1 \
-  --env="SPRING_DATASOURCE_URL=jdbc:mysql://host.docker.internal:3306/exchange_service"
-
+kubectl create deployment exchange-service --image=leandrocgsi/exchange-service:kube-v1
+kubectl set env deployment exchange-service SPRING_DATASOURCE_URL=jdbc:mysql://host.docker.internal:3306/exchange_service
 kubectl expose deployment exchange-service --type=LoadBalancer --port=8000
 
-kubectl create deployment book-service \
-  --image=leandrocgsi/book-service:kube-v1 \
-  --env="SPRING_DATASOURCE_URL=jdbc:mysql://host.docker.internal:3306/book_service"
+
+kubectl create deployment book-service --image=leandrocgsi/book-service:kube-v1
+kubectl set env deployment book-service SPRING_DATASOURCE_URL=jdbc:mysql://host.docker.internal:3306/book_service
 
 kubectl expose deployment book-service --type=LoadBalancer --port=8100

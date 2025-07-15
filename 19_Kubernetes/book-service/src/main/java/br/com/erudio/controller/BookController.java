@@ -37,6 +37,7 @@ public class BookController {
             @PathVariable("currency") String currency
     ){
         String port = informationService.retrieveServerPort();
+        String host = informationService.retrieveInstanceInfo();
 
         var book = repository.findById(id).orElseThrow();
 
@@ -44,8 +45,8 @@ public class BookController {
 
         // book.setEnvironment(port + " FEIGN");
         book.setEnvironment(
-            "BOOK PORT: " + port +
-            " EXCHANGE PORT: " + exchange.getEnvironment());
+            "BOOK HOST: " + host + " PORT: " + port +
+            " EXCHANGE HOST: " + exchange.getEnvironment());
         book.setPrice(exchange.getConvertedValue());
         book.setCurrency(currency);
         return book;

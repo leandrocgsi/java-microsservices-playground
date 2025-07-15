@@ -39,6 +39,9 @@ public class ExchangeController {
 
         logger.info("getExchange is called with -> {}, {} and {}", amount, from, to);
 
+        String port = informationService.retrieveServerPort();
+        String host = informationService.retrieveInstanceInfo();
+
         Exchange exchange = repository.findByFromAndTo(from, to);
 
         if (exchange == null) throw new RuntimeException("Currency Unsupported!");
@@ -46,7 +49,7 @@ public class ExchangeController {
         BigDecimal conversionFactor = exchange.getConversionFactor();
         BigDecimal convertedValue = conversionFactor.multiply(amount);
         exchange.setConvertedValue(convertedValue);
-        exchange.setEnvironment("PORT " + informationService.retrieveServerPort());
+        exchange.setEnvironment(host + "PORT: " + port);
 
         return exchange;
     }
